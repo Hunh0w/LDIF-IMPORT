@@ -1,0 +1,16 @@
+#!/bin/bash
+if [[ $# < 1 ]]; then
+  echo "Utilisation: $0 <fichier LDIF> [host]"
+  exit 1
+fi
+FILE=$1
+HOST="127.0.0.1"
+if [[ ! -f $FILE ]]; then
+  echo "Ce fichier n'existe pas"
+  exit 1
+fi
+if [[ $# -ge 2 ]]; then
+  HOST=$2
+fi
+D="cn=admin,dc=nodomain"
+ldapmodify -v -x -D $D -w "admin" -h $HOST -f $FILE
